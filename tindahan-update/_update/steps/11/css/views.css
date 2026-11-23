@@ -1,0 +1,955 @@
+/* Screen-specific styles. Shared pieces live in components.css. */
+
+/* ===================== Bukas (dashboard) ===================== */
+.open-store {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: center;
+  padding: var(--space-5);
+  background: var(--color-cardboard);
+  border: var(--border-ink);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-stamp);
+}
+
+/* A hanging cardboard sign, still turned to "SARADO". */
+.open-store__sign {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 2;
+  margin-top: var(--space-5);
+  font-family: var(--font-sign);
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  color: var(--color-white);
+  background: var(--color-sale-red);
+  border: 4px solid var(--color-ink);
+  border-radius: var(--radius-md);
+  box-shadow: 6px 6px 0 var(--color-ink);
+  transform: rotate(-4deg);
+}
+
+.open-store__sign::before {
+  content: '';
+  position: absolute;
+  top: -2.2rem;
+  left: 50%;
+  width: 45%;
+  height: 2.2rem;
+  border: 3px solid var(--color-ink);
+  border-bottom: none;
+  border-radius: 50% 50% 0 0;
+  transform: translateX(-50%);
+}
+
+.open-store__body {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.open-store__title {
+  margin: 0;
+  font-family: var(--font-sign);
+  font-weight: 400;
+  font-size: var(--text-xl);
+}
+
+.dashboard__today {
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (max-width: 640px) {
+  .open-store {
+    grid-template-columns: 1fr;
+  }
+
+  .open-store__sign {
+    width: 70%;
+    margin: var(--space-5) auto 0;
+  }
+}
+
+/* ===================== Tinda (cashier) ===================== */
+
+/* The window grille: thick mint bars framing the shelves. */
+.grille {
+  padding: 14px;
+  background-color: var(--color-grille);
+  background-image:
+    repeating-linear-gradient(90deg, var(--color-grille-dark) 0 6px, transparent 6px 36px),
+    linear-gradient(
+      var(--color-grille-dark) 0 6px,
+      transparent 6px calc(100% - 6px),
+      var(--color-grille-dark) calc(100% - 6px)
+    );
+  border: 3px solid var(--color-ink);
+  border-radius: 18px 18px var(--radius-md) var(--radius-md);
+  box-shadow: var(--shadow-soft);
+}
+
+.grille__window {
+  padding: var(--space-3);
+  background: #f3ead6;
+  border: 3px solid var(--color-grille-dark);
+  border-radius: 10px;
+}
+
+.shelf-toolbar {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.shelf-toolbar__search-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-3);
+  background: var(--color-white);
+  border: var(--border-ink);
+  border-radius: 999px;
+}
+
+.shelf-toolbar__search-wrap svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex: none;
+}
+
+.shelf-toolbar__search {
+  border: none;
+  background: transparent;
+  min-height: 2.5rem;
+  padding-left: 0;
+}
+
+.shelf-toolbar__search:focus-visible {
+  box-shadow: none;
+}
+
+.shelf-toolbar__search-wrap:focus-within {
+  box-shadow: var(--focus-ring);
+}
+
+.shelf-toolbar .segmented {
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+
+.shelf-toolbar .segmented__option {
+  white-space: nowrap;
+}
+
+/* Items sit side by side with no gap, so each row's planks join into one shelf. */
+.shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  row-gap: var(--space-4);
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: var(--space-2) 0;
+}
+
+.shelf__item {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  gap: var(--space-1);
+  justify-items: center;
+  padding: var(--space-2) var(--space-2) calc(14px + var(--space-2));
+  text-align: center;
+  /* The wooden plank under every product. */
+  background: linear-gradient(
+    to top,
+    var(--color-wood-dark) 0 4px,
+    var(--color-wood) 4px 12px,
+    var(--color-wood-light) 12px 14px,
+    transparent 14px
+  );
+}
+
+.shelf__item--out .shelf__product {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+
+/* The product "packaging": a colored box with the name printed on it. */
+.shelf__product {
+  display: grid;
+  place-items: center;
+  gap: var(--space-1);
+  width: 88%;
+  min-height: 6.5rem;
+  padding: var(--space-2);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  line-height: 1.15;
+  border: 2px solid var(--color-ink);
+  border-radius: 6px 6px 3px 3px;
+  box-shadow:
+    inset 0 -10px 0 rgb(0 0 0 / 10%),
+    2px 0 0 rgb(0 0 0 / 15%);
+}
+
+.shelf__product--tone-0 {
+  background: #f6d27a;
+}
+.shelf__product--tone-1 {
+  background: #9fd0c4;
+}
+.shelf__product--tone-2 {
+  background: #f2a98f;
+}
+.shelf__product--tone-3 {
+  background: #b9c8ef;
+}
+.shelf__product--tone-4 {
+  background: #d8c09a;
+}
+.shelf__product--tone-5 {
+  background: #f3efe3;
+}
+.shelf__product--tone-6 {
+  background: #e7b3cf;
+}
+.shelf__product--tone-7 {
+  background: #c6e09a;
+}
+
+.shelf__image {
+  width: 100%;
+  max-height: 5rem;
+  object-fit: contain;
+}
+
+.shelf__product .zoomable {
+  width: 100%;
+}
+
+.shelf__name {
+  overflow-wrap: anywhere;
+}
+
+.shelf__stamp {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-1);
+  transform: rotate(12deg);
+}
+
+.shelf__prices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-1);
+}
+
+.price-tag--piece {
+  background: var(--color-sign-yellow-soft);
+  font-weight: 700;
+}
+
+.shelf__stock {
+  font-size: var(--text-xs);
+  color: var(--color-ink-soft);
+}
+
+.shelf__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-1);
+  align-self: end;
+}
+
+.shelf__add {
+  min-height: 2rem;
+  padding: 0 var(--space-2);
+  text-transform: none;
+}
+
+.shelf__add svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+/* The supot: a brown paper bag with a crinkled top edge. */
+.supot {
+  position: sticky;
+  top: var(--space-3);
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  background: var(--color-bag);
+  background-image: repeating-linear-gradient(
+    95deg,
+    rgb(255 255 255 / 0%) 0 22px,
+    rgb(255 255 255 / 9%) 22px 24px
+  );
+  border: var(--border-ink);
+  border-top: none;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  box-shadow: var(--shadow-stamp);
+  clip-path: polygon(
+    0 10px,
+    5% 0,
+    10% 10px,
+    15% 0,
+    20% 10px,
+    25% 0,
+    30% 10px,
+    35% 0,
+    40% 10px,
+    45% 0,
+    50% 10px,
+    55% 0,
+    60% 10px,
+    65% 0,
+    70% 10px,
+    75% 0,
+    80% 10px,
+    85% 0,
+    90% 10px,
+    95% 0,
+    100% 10px,
+    100% 100%,
+    0 100%
+  );
+}
+
+.supot__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.supot__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-family: var(--font-sign);
+  font-weight: 400;
+}
+
+.supot__title svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.supot .empty-state {
+  padding: var(--space-4);
+  color: var(--color-ink);
+}
+
+.supot__lines {
+  display: grid;
+  gap: var(--space-2);
+  max-height: 32vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.supot__line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--space-2);
+  align-items: center;
+  padding: var(--space-2);
+  background: var(--color-white);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-sm);
+}
+
+.supot__line-info {
+  display: grid;
+  min-width: 0;
+}
+
+.supot__line-name {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.supot__qty {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.supot__qty .btn--icon {
+  width: 1.9rem;
+  min-height: 1.9rem;
+  box-shadow: none;
+}
+
+.supot__qty-input {
+  width: 2.6rem;
+  min-height: 1.9rem;
+  padding: 0;
+  text-align: center;
+}
+
+.supot__line-total {
+  min-width: 4.5rem;
+  text-align: right;
+  font-weight: 700;
+}
+
+.supot__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-sign);
+  background: var(--color-ink);
+  color: var(--color-sign-yellow);
+  border-radius: var(--radius-sm);
+}
+
+.supot__total strong {
+  font-size: var(--text-xl);
+  font-weight: 400;
+}
+
+.supot__payment {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.supot__payment .segmented {
+  width: 100%;
+}
+
+.supot__pay-row {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: center;
+}
+
+.sukli {
+  min-height: 1.5rem;
+}
+
+.sukli__label {
+  margin-bottom: var(--space-2);
+}
+
+.sukli__short {
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-danger);
+}
+
+.sale-done {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.sale-done__change {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  text-align: center;
+  background: var(--color-sign-yellow-soft);
+  border: 2px dashed var(--color-ink);
+  border-radius: var(--radius-md);
+}
+
+.sale-done__change-label {
+  margin: 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.sale-done__change-amount {
+  margin: 0;
+  font-family: var(--font-sign);
+  font-size: var(--text-2xl);
+  color: var(--color-sale-red);
+}
+
+@media (max-width: 900px) {
+  .supot {
+    position: static;
+  }
+
+  .shelf {
+    max-height: none;
+  }
+}
+
+/* Phones: two products per shelf row instead of one. */
+@media (max-width: 640px) {
+  .grille {
+    padding: 8px;
+  }
+
+  .grille__window {
+    padding: var(--space-2);
+  }
+
+  .shelf {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .shelf__product {
+    width: 94%;
+    min-height: 5.5rem;
+    font-size: var(--text-xs);
+  }
+}
+
+/* ===================== Paninda (inventory) ===================== */
+.product-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.product-cell__thumb {
+  width: 3rem;
+  height: 3rem;
+  object-fit: cover;
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-sm);
+}
+
+.tingi-fields {
+  padding: var(--space-3);
+  background: var(--color-sign-yellow-soft);
+  border: 2px dashed var(--color-ink);
+  border-radius: var(--radius-sm);
+}
+
+.tingi-fields[hidden] {
+  display: none;
+}
+
+.image-field__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.image-field__preview {
+  width: 7rem;
+  height: 7rem;
+  object-fit: contain;
+  background: var(--color-white);
+  border: 2px solid var(--color-ink);
+}
+
+.image-field .zoomable[hidden] {
+  display: none;
+}
+
+/* ---------- Picture zoom ---------- */
+.zoomable {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  padding: 0;
+  font: inherit;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: zoom-in;
+}
+
+.zoomable:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.zoomable__badge {
+  position: absolute;
+  right: -0.35rem;
+  bottom: -0.35rem;
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  color: var(--color-ink);
+  background: var(--color-sign-yellow);
+  border: 2px solid var(--color-ink);
+  border-radius: 50%;
+  transition: transform 120ms ease;
+}
+
+.zoomable__badge svg {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+.zoomable:hover .zoomable__badge,
+.zoomable:focus-visible .zoomable__badge {
+  transform: scale(1.15);
+}
+
+.image-viewer {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: center;
+  margin: 0;
+}
+
+.image-viewer__img {
+  width: min(100%, 36rem);
+  max-height: 70vh;
+  object-fit: contain;
+  background: var(--color-white);
+  border: var(--border-ink);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-stamp);
+}
+
+.image-viewer__caption {
+  font-weight: 700;
+  font-size: var(--text-lg);
+}
+
+.category-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.category-chips__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 0 0 var(--space-3);
+  font-weight: 600;
+  background: var(--color-sign-yellow-soft);
+  border: 2px solid var(--color-ink);
+  border-radius: 999px;
+}
+
+.category-chips__remove {
+  width: 1.9rem;
+  height: 1.9rem;
+  font-size: var(--text-lg);
+  line-height: 1;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.category-chips__remove:hover {
+  background: var(--color-danger-soft);
+}
+
+.category-form {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-end;
+}
+
+.category-form .field {
+  flex: 1;
+}
+
+/* ===================== Benta (history) ===================== */
+.history__items {
+  max-width: 22rem;
+  font-size: var(--text-sm);
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* ===================== Listahan (credit) ===================== */
+.listahan {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.suki-list {
+  display: grid;
+  gap: var(--space-2);
+  max-height: 55vh;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+/* Each suki looks like an index tab sticking out of the notebook. */
+.suki-list__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-weight: 600;
+  text-align: left;
+  background: var(--color-white);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-sm) var(--radius-md) var(--radius-md) var(--radius-sm);
+  cursor: pointer;
+}
+
+.suki-list__item[aria-current='true'] {
+  background: var(--color-sign-yellow);
+  box-shadow: var(--shadow-stamp-small);
+  transform: translateX(6px);
+}
+
+.suki-list__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.suki-list__balance {
+  font-variant-numeric: tabular-nums;
+}
+
+.notebook-wrap {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.notebook__meta {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: 2rem;
+  color: var(--color-ink-soft);
+}
+
+@media (max-width: 900px) {
+  .listahan {
+    grid-template-columns: 1fr;
+  }
+
+  .notebook__line {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .suki-list__item[aria-current='true'] {
+    transform: none;
+  }
+
+  /* One entry per ruled line, like real handwriting; long item lists are cut with "…". */
+  .notebook__text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .notebook__balance {
+    display: none;
+  }
+}
+
+/* ===================== Pamilihan (restock) ===================== */
+.checklist__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2rem;
+}
+
+.checklist__line--checked .checklist__name {
+  text-decoration: line-through;
+  text-decoration-color: var(--color-sale-red);
+  text-decoration-thickness: 2px;
+}
+
+.checklist__qty {
+  min-width: 2.5rem;
+  font-weight: 700;
+}
+
+.checklist__name {
+  flex: 1;
+}
+
+.checklist__actions {
+  display: inline-flex;
+  gap: var(--space-1);
+  font-family: var(--font-body);
+}
+
+/* ===================== Sara (closing) ===================== */
+.cash-count__rows {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.cash-count__row {
+  display: grid;
+  grid-template-columns: 4rem 1rem 6rem minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.cash-count__times {
+  font-weight: 700;
+  color: var(--color-ink-soft);
+}
+
+.cash-count__input {
+  min-height: 2.25rem;
+  text-align: center;
+}
+
+.closing__result {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  text-align: center;
+  background: var(--color-white);
+  border: 2px dashed var(--color-ink);
+  border-radius: var(--radius-md);
+}
+
+.closing__result p {
+  margin: 0;
+}
+
+.closing__counted {
+  font-size: var(--text-lg);
+}
+
+.closing__latest {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+}
+
+/* ===================== Ulat (reports) ===================== */
+.chart {
+  height: 300px;
+}
+
+.chart__canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.chart__legend-item::before {
+  content: '';
+  display: inline-block;
+  width: 1.4rem;
+  height: 0.8rem;
+  margin-right: var(--space-2);
+  vertical-align: middle;
+  border: 2px solid var(--color-ink);
+}
+
+.chart__legend-item--sales::before {
+  background: var(--color-sale-red);
+}
+
+.chart__legend-item--profit::before {
+  height: 0;
+  border: none;
+  border-top: 3px solid var(--color-grille-dark);
+}
+
+.chart__legend-item--expenses::before {
+  height: 0;
+  border: none;
+  border-top: 3px dashed var(--color-warn);
+}
+
+/* ===================== Talaan (activity log) ===================== */
+.log-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.log-list__item {
+  display: grid;
+  grid-template-columns: 11rem 6.5rem minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-2) 0;
+  border-bottom: 1px dashed var(--color-ink-faint);
+}
+
+.log-list__time {
+  font-size: var(--text-sm);
+  color: var(--color-ink-soft);
+}
+
+@media (max-width: 640px) {
+  .log-list__item {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+}
+
+/* ===================== Tungkol (about) ===================== */
+.about-sign {
+  justify-self: center;
+  width: min(100%, 760px);
+  padding: var(--space-5) var(--space-6);
+  text-align: center;
+  background: var(--color-sign-yellow);
+  border: 4px solid var(--color-ink);
+  border-radius: var(--radius-md);
+  box-shadow:
+    inset 0 0 0 6px var(--color-sign-yellow),
+    inset 0 0 0 9px var(--color-sale-red),
+    8px 8px 0 var(--color-ink);
+  transform: rotate(-1deg);
+}
+
+.about-sign__kicker {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: var(--text-xl);
+}
+
+.about-sign__names {
+  margin: 0;
+  font-family: var(--font-sign);
+  font-size: clamp(1.25rem, 3.5vw, 2rem);
+  line-height: 1.3;
+  color: var(--color-sale-red);
+  text-shadow: 2px 2px 0 var(--color-white);
+}
+
+.about-list {
+  margin: 0;
+  padding-left: var(--space-5);
+  line-height: 2;
+  font-weight: 600;
+}

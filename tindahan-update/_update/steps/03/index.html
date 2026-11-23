@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Tindahan — a sari-sari store management system: selling, credit (utang), inventory, and end-of-day cash count."
+    />
+    <meta name="theme-color" content="#2a6159" />
+    <title>Tindahan</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bungee&family=Courier+Prime:wght@400;700&family=Kalam:wght@400;700&family=Work+Sans:wght@400;600;700;800&display=swap"
+    />
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/views.css" />
+    <link rel="stylesheet" href="css/print.css" />
+    <script type="module" src="js/main.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" id="skip-link" href="#app-main">Skip to content</a>
+
+    <header class="store-front">
+      <div class="store-front__inner">
+        <div class="signboard" id="signboard"></div>
+        <div class="store-front__tools" id="store-tools"></div>
+      </div>
+      <nav class="main-nav" id="main-nav" aria-label="Main"></nav>
+    </header>
+
+    <main class="app-main" id="app-main" tabindex="-1">
+      <noscript>
+        <p class="callout">Tindahan needs JavaScript enabled to run.</p>
+      </noscript>
+    </main>
+
+    <footer class="app-footer" id="app-footer"></footer>
+
+    <div class="toast-region" id="toast-region" aria-live="polite"></div>
+    <div id="print-root" class="print-root"></div>
+  </body>
+</html>

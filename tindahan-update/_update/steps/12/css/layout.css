@@ -1,0 +1,474 @@
+/* App shell: storefront header, grille navigation, main area and footer. */
+
+/* ---------- Storefront header ---------- */
+.store-front {
+  background: var(--color-grille-dark);
+  border-bottom: 6px solid var(--color-wood-dark);
+}
+
+.store-front__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-4) var(--space-3);
+}
+
+/* The hand-painted signboard above the store window. */
+.signboard {
+  position: relative;
+  padding: var(--space-2) var(--space-5) var(--space-3);
+  background: var(--color-sign-yellow);
+  border: 3px solid var(--color-ink);
+  border-radius: var(--radius-sm);
+  box-shadow:
+    inset 0 0 0 4px var(--color-sign-yellow),
+    inset 0 0 0 6px var(--color-sale-red),
+    5px 5px 0 var(--color-ink);
+  transform: rotate(-0.6deg);
+}
+
+.signboard__kicker {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: var(--text-md);
+  color: var(--color-ink-soft);
+  line-height: 1.2;
+}
+
+.signboard__name {
+  margin: 0;
+  font-size: clamp(1.25rem, 3.4vw, 2.1rem);
+  color: var(--color-sale-red);
+  text-shadow: 2px 2px 0 var(--color-white);
+  line-height: 1.05;
+}
+
+.store-front__tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* BUKAS / SARADO sign that flips like the real hanging one. */
+.open-sign {
+  position: relative;
+  width: 8.5rem;
+  height: 3rem;
+  perspective: 600px;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.open-sign::before {
+  content: '';
+  position: absolute;
+  top: -0.9rem;
+  left: 50%;
+  width: 3.4rem;
+  height: 1.1rem;
+  border: 2px solid var(--color-ink-faint);
+  border-bottom: none;
+  border-radius: 50% 50% 0 0;
+  transform: translateX(-50%);
+}
+
+.open-sign__card {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform var(--motion-duration) cubic-bezier(0.5, 1.6, 0.4, 1);
+}
+
+.open-sign--closed .open-sign__card {
+  transform: rotateY(180deg);
+}
+
+.open-sign__face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-sign);
+  font-size: var(--text-lg);
+  letter-spacing: 0.08em;
+  border: 3px solid var(--color-ink);
+  border-radius: var(--radius-sm);
+  backface-visibility: hidden;
+  box-shadow: var(--shadow-stamp-small);
+}
+
+.open-sign__face--open {
+  background: var(--color-ok);
+  color: var(--color-white);
+}
+
+.open-sign__face--closed {
+  background: var(--color-sale-red);
+  color: var(--color-white);
+  transform: rotateY(180deg);
+}
+
+.lang-toggle {
+  display: inline-flex;
+  border: var(--border-ink);
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--color-paper);
+  box-shadow: var(--shadow-stamp-small);
+}
+
+.lang-toggle__option {
+  padding: var(--space-1) var(--space-3);
+  border: none;
+  background: transparent;
+  font-weight: 700;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.lang-toggle__option[aria-pressed='true'] {
+  background: var(--color-ink);
+  color: var(--color-sign-yellow);
+}
+
+/* ---------- Navigation: labels hanging on the window grille ---------- */
+.main-nav {
+  background-color: var(--color-grille);
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-grille-dark) 0 5px,
+    transparent 5px 42px
+  );
+  border-top: 5px solid var(--color-grille-dark);
+}
+
+.main-nav__list {
+  display: flex;
+  gap: var(--space-2);
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-4);
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.main-nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  border: var(--border-ink);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-stamp-small);
+  transition: transform var(--transition-fast);
+}
+
+.main-nav__link:hover {
+  transform: translateY(-2px) rotate(-1deg);
+}
+
+.main-nav__link[aria-current='page'] {
+  background: var(--color-sale-red);
+  color: var(--color-white);
+  transform: rotate(-1.5deg);
+}
+
+.main-nav__link svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: none;
+}
+
+/* On wider screens every menu item stays visible by wrapping to a second row
+   instead of hiding off the edge. Phones keep the swipeable single row. */
+@media (min-width: 901px) {
+  .main-nav__list {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2) 0.375rem;
+    max-width: none;
+    overflow-x: visible;
+  }
+
+  .main-nav__link {
+    gap: 0.375rem;
+    padding: var(--space-2) 0.5rem;
+  }
+}
+
+/* ---------- Main ---------- */
+.app-main {
+  display: grid;
+  gap: var(--space-5);
+  flex: 1 0 auto;
+  align-content: start;
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-7);
+}
+
+/* Grid children may otherwise grow wider than the screen because of long tables. */
+.app-main > * {
+  min-width: 0;
+}
+
+/* Focus moves to <main> on every screen change for screen readers; no ring is needed there. */
+.app-main:focus,
+.app-main:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.page-header__title {
+  margin: 0;
+}
+
+.page-header__subtitle {
+  margin: var(--space-1) 0 0;
+  font-family: var(--font-hand);
+  font-size: var(--text-lg);
+  color: var(--color-ink-soft);
+}
+
+.page-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ---------- Footer: the wooden counter ---------- */
+.app-footer {
+  flex: none;
+  color: var(--color-paper);
+  background-color: var(--color-wood);
+  background-image: repeating-linear-gradient(
+    180deg,
+    rgb(0 0 0 / 0%) 0 9px,
+    rgb(0 0 0 / 8%) 9px 11px
+  );
+  border-top: 6px solid var(--color-wood-dark);
+}
+
+.app-footer__inner,
+.app-footer__bottom {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4);
+}
+
+.app-footer__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: var(--space-5);
+  font-size: var(--text-sm);
+}
+
+.app-footer p {
+  margin: 0;
+}
+
+.app-footer a {
+  color: var(--color-sign-yellow);
+  font-weight: 700;
+}
+
+.app-footer__brand {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.app-footer__name {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  font-family: var(--font-sign);
+  font-size: var(--text-lg);
+  color: var(--color-sign-yellow);
+}
+
+.app-footer__name svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  flex: none;
+}
+
+.app-footer__tagline {
+  color: var(--color-paper-dark);
+}
+
+.app-footer__today {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.app-footer__status {
+  padding: 0.1rem 0.55rem;
+  font-weight: 800;
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  border: 2px solid var(--color-ink);
+  border-radius: 999px;
+  box-shadow: var(--shadow-stamp-small);
+}
+
+.app-footer__status--open {
+  color: var(--color-white);
+  background: var(--color-ok);
+}
+
+.app-footer__status--closed {
+  color: var(--color-white);
+  background: var(--color-sale-red);
+}
+
+.app-footer__heading {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-sign-yellow-soft);
+}
+
+.app-footer__list {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app-footer__list--names li {
+  color: var(--color-paper);
+}
+
+.app-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-paper-dark);
+  border-top: 1px dashed rgb(255 253 248 / 35%);
+}
+
+.app-footer__top {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0 var(--space-3);
+  font: inherit;
+  font-weight: 700;
+  color: var(--color-ink);
+  background: var(--color-sign-yellow);
+  border: var(--border-ink);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-stamp-small);
+  cursor: pointer;
+}
+
+.app-footer__top:hover {
+  background: var(--color-sign-yellow-soft);
+}
+
+.app-footer__top:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.app-footer__top svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ---------- Common grids ---------- */
+.layout-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.layout-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.layout-stack {
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (max-width: 900px) {
+  .layout-split,
+  .layout-two {
+    grid-template-columns: 1fr;
+  }
+
+  .app-footer__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .app-footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .store-front__inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .store-front__tools {
+    justify-content: space-between;
+  }
+
+  .signboard {
+    text-align: center;
+  }
+
+  .app-main {
+    padding-top: var(--space-4);
+  }
+
+  .app-footer__inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .app-footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

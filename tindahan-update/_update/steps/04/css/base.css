@@ -1,0 +1,206 @@
+/* Base element styles: reset, typography, forms and accessibility helpers. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+/*
+ * Header, main and footer stack in a column that is at least one screen tall.
+ * <main> takes the leftover space, so on short screens the footer sits at the
+ * bottom of the window and on long screens it follows the content.
+ */
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: 1.5;
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  /* Faint paper grain made from two offset dot grids — no image files needed. */
+  background-image:
+    radial-gradient(rgb(95 80 66 / 6%) 1px, transparent 1px),
+    radial-gradient(rgb(95 80 66 / 4%) 1px, transparent 1px);
+  background-size:
+    22px 22px,
+    13px 13px;
+  background-position:
+    0 0,
+    7px 11px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 var(--space-3);
+  line-height: 1.15;
+}
+
+h1,
+h2 {
+  font-family: var(--font-sign);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+h1 {
+  font-size: var(--text-2xl);
+}
+
+h2 {
+  font-size: var(--text-xl);
+}
+
+h3 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+p {
+  margin: 0 0 var(--space-3);
+}
+
+a {
+  color: var(--color-pencil);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-white);
+  border: var(--border-ink);
+  border-radius: var(--radius-sm);
+  min-height: 2.75rem;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  width: 1.25rem;
+  height: 1.25rem;
+  min-height: 0;
+  accent-color: var(--color-sale-red);
+}
+
+input[type='file'] {
+  padding: var(--space-2);
+  background: var(--color-paper);
+}
+
+textarea {
+  min-height: 5rem;
+  resize: vertical;
+}
+
+input[aria-invalid='true'],
+select[aria-invalid='true'],
+textarea[aria-invalid='true'] {
+  border-color: var(--color-danger);
+  background: var(--color-danger-soft);
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-soft);
+}
+
+th,
+td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px dashed var(--color-ink-faint);
+  vertical-align: middle;
+}
+
+/* Hides content visually but keeps it for screen readers. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--space-4);
+  z-index: 100;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-sign-yellow);
+  border: var(--border-ink);
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+}
+
+.text-money {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-muted {
+  color: var(--color-ink-soft);
+}
+
+.text-small {
+  font-size: var(--text-sm);
+}
+
+/*
+ * Respect "reduce motion": every animation and transition in the app reads
+ * its duration from these tokens, so zeroing them here turns motion off
+ * everywhere without needing !important.
+ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --motion-duration: 0ms;
+  }
+}
