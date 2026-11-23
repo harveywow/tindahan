@@ -1,0 +1,42 @@
+/*
+ * Printing. When the app prints a receipt or list, it copies that element
+ * into #print-root and adds .is-printing to <body>; everything else is hidden.
+ */
+.print-root {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 10mm;
+  }
+
+  body.is-printing > :not(.print-root) {
+    display: none;
+  }
+
+  body.is-printing .print-root {
+    display: block;
+  }
+
+  body {
+    background: none;
+  }
+
+  .receipt,
+  .notebook {
+    box-shadow: none;
+    mask: none;
+    margin: 0 auto;
+  }
+
+  .receipt {
+    border: 1px dashed #000;
+  }
+
+  .btn,
+  .checklist__actions,
+  input[type='checkbox'] {
+    display: none;
+  }
+}
