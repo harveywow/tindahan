@@ -280,6 +280,21 @@ export class SettingsView extends BaseView {
     }
   }
 
+  /**
+   * Demo data and reset replace the settings too, which would silently switch
+   * a Filipino user back to English. This keeps the language they are using.
+   * (Restoring a backup is different: it brings back the backup's language.)
+   * @param {function(): void} action
+   * @returns {function(): void}
+   */
+  keepLanguage(action) {
+    return () => {
+      const { language } = this.services.settingsService.get();
+      action();
+      this.services.settingsService.setLanguage(language);
+    };
+  }
+
   /** Replaces data with 30 days of sample activity. */
   async loadDemo() {
     const confirmed = await confirmAction({
@@ -288,9 +303,14 @@ export class SettingsView extends BaseView {
       confirmLabel: t('settings.loadDemo'),
     });
     if (confirmed && (await requirePin(this.services.authService, t('settings.pinForRestore')))) {
-      this.runAction(() => this.services.demoDataService.loadDemoData(this.context.clock.today()), {
-        successMessage: t('settings.demoLoaded'),
-      });
+      this.runAction(
+        this.keepLanguage(() =>
+          this.services.demoDataService.loadDemoData(this.context.clock.today()),
+        ),
+        {
+          successMessage: t('settings.demoLoaded'),
+        },
+      );
     }
   }
 
@@ -307,9 +327,12 @@ export class SettingsView extends BaseView {
         word,
       })
     ) {
-      this.runAction(() => this.services.backupService.resetAll(), {
-        successMessage: t('settings.resetDone'),
-      });
+      this.runAction(
+        this.keepLanguage(() => this.services.backupService.resetAll()),
+        {
+          successMessage: t('settings.resetDone'),
+        },
+      );
     }
   }
 }

@@ -1,11 +1,13 @@
 /**
- * @file The storefront frame around every screen: signboard, BUKAS/SARADO
+ * @file The storefront frame around every screen: signboard, OPEN/CLOSED
  * sign, language toggle, grille navigation and footer.
- * Depends on: core/EventBus.js, ui/components/icons.js, utils/dom.js, utils/i18n.js.
+ * Depends on: core/EventBus.js, ui/components/AppFooter.js, ui/components/icons.js,
+ * utils/dom.js, utils/i18n.js.
  */
 import { EVENTS } from '../core/EventBus.js';
 import { el } from '../utils/dom.js';
 import { LANGUAGES, t } from '../utils/i18n.js';
+import { buildFooter } from './components/AppFooter.js';
 import { icon } from './components/icons.js';
 
 /** Navigation entries in the order of a store day. */
@@ -39,12 +41,19 @@ export class AppShell {
     this.render();
     const { bus } = this.context;
     [EVENTS.DAY_CHANGED, EVENTS.SETTINGS_CHANGED, EVENTS.DATA_CHANGED].forEach((eventName) =>
-      bus.on(eventName, () => this.renderTools()),
+      bus.on(eventName, () => {
+        this.renderTools();
+        this.renderFooter();
+      }),
     );
     bus.on(EVENTS.SETTINGS_CHANGED, () => this.render());
   }
 
   render() {
+    const skipLink = globalThis.document?.getElementById('skip-link');
+    if (skipLink) {
+      skipLink.textContent = t('common.skipToContent');
+    }
     this.renderSignboard();
     this.renderTools();
     this.renderNav();
@@ -141,16 +150,15 @@ export class AppShell {
     this.slots.nav.replaceChildren(list);
   }
 
+  /** Footer with today's status; redrawn when the day, data or settings change. */
   renderFooter() {
+    const { services, clock } = this.context;
     this.slots.footer.replaceChildren(
-      el('div', { className: 'app-footer__inner' }, [
-        el('span', { text: t('footer.tagline') }),
-        el('span', {}, [
-          t('footer.madeBy'),
-          ' ',
-          el('a', { text: t('nav.tungkol'), attrs: { href: '#tungkol' } }),
-        ]),
-      ]),
+      ...buildFooter({
+        storeName: services.settingsService.get().storeName,
+        todayKey: clock.today(),
+        isOpen: services.dayService.isOpen(),
+      }),
     );
   }
 

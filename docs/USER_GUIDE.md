@@ -1,17 +1,17 @@
 # User Guide — for Aling Nena
 
-This guide walks through one store day. Switch between **EN** and **FIL** with the button at the top right.
+This guide walks through one store day. Switch between **EN** and **FIL** with the button at the top right. Screens are named here in Filipino with the English name in brackets, e.g. **Paninda (Products)**.
 
 ## Before the first day
 
 1. Go to **Ayos (Settings)**.
 2. Type your **store name** and **your name**, then press **Save**.
 3. Set an **owner PIN** (4–6 digits). You will need it to void sales, change prices, allow utang over a limit, restore a backup or reset.
-4. To practice first, press **Load demo data**. This fills the store with 30 days of sample sales. You can **Reset all data** later (type `BURAHIN` to confirm).
+4. To practice first, press **Load demo data**. This fills the store with 30 days of sample sales. You can **Reset all data** later (type `BURAHIN` to confirm, or `DELETE` in English).
 
 ## Adding your paninda
 
-1. Go to **Paninda** and press **Add product**.
+1. Go to **Paninda (Products)** and press **Add product**.
 2. Fill in the name, category, what one pack is called (*pack, bote, lata, strip…*), the **puhunan** (cost) and the **selling price**.
 3. If you also sell it by piece (**tingi**), tick *Sold by piece too* and enter how many pieces are in a pack and the price per piece.
 4. **Reorder level** is when you want to be reminded to buy more.
@@ -19,6 +19,8 @@ This guide walks through one store day. Switch between **EN** and **FIL** with t
 6. If the price is lower than the puhunan, the system warns you. You can still save it, for example for an item that is about to expire.
 
 Stock is shown as **"3 packs + 5 pcs"** for tingi items. To correct stock (spoiled, lost, used at home), press the **box** button on a product. Products that were already sold are **archived** instead of deleted, so old receipts stay correct.
+
+Pictures are shown small. Click any product picture (in the product list, in the form or on the selling shelf) to see it large; close it with ✕, `Esc` or a click outside.
 
 ## 1. Bukas — opening the store
 
@@ -69,7 +71,9 @@ Record any money taken from the drawer: *yelo*, plastic bags, pamasahe, money fo
    - **TAMA**: exact.
    - **SOBRA**: there is extra money.
    - **KULANG**: money is missing. You must write a short note explaining why.
-3. Press **Isara ang tindahan**. The day's summary appears and can be printed. After closing, that day can no longer be changed.
+3. Press **Isara ang tindahan**. The day's summary appears and can be printed.
+
+**Closed by mistake, or a customer came back?** On **Bukas (Dashboard)**, press **Buksan ulit ngayong araw (Reopen today)** and enter the owner PIN. New sales are added to the same day, so just count the drawer again when you close. The earlier count is kept in **Talaan (Activity Log)**, and the summary notes that the day was reopened. Only today can be reopened; past days can no longer be changed.
 
 ## Ulat — reports
 

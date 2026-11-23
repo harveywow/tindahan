@@ -220,8 +220,12 @@
 
 .shelf__image {
   width: 100%;
-  max-height: 4.5rem;
+  max-height: 5rem;
   object-fit: contain;
+}
+
+.shelf__product .zoomable {
+  width: 100%;
 }
 
 .shelf__name {
@@ -512,8 +516,8 @@
 }
 
 .product-cell__thumb {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
   object-fit: cover;
   border: 2px solid var(--color-ink);
   border-radius: var(--radius-sm);
@@ -537,14 +541,80 @@
 }
 
 .image-field__preview {
-  width: 4rem;
-  height: 4rem;
-  object-fit: cover;
+  width: 7rem;
+  height: 7rem;
+  object-fit: contain;
+  background: var(--color-white);
   border: 2px solid var(--color-ink);
 }
 
-.image-field__preview[hidden] {
+.image-field .zoomable[hidden] {
   display: none;
+}
+
+/* ---------- Picture zoom ---------- */
+.zoomable {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  padding: 0;
+  font: inherit;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: zoom-in;
+}
+
+.zoomable:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.zoomable__badge {
+  position: absolute;
+  right: -0.35rem;
+  bottom: -0.35rem;
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  color: var(--color-ink);
+  background: var(--color-sign-yellow);
+  border: 2px solid var(--color-ink);
+  border-radius: 50%;
+  transition: transform 120ms ease;
+}
+
+.zoomable__badge svg {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+.zoomable:hover .zoomable__badge,
+.zoomable:focus-visible .zoomable__badge {
+  transform: scale(1.15);
+}
+
+.image-viewer {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: center;
+  margin: 0;
+}
+
+.image-viewer__img {
+  width: min(100%, 36rem);
+  max-height: 70vh;
+  object-fit: contain;
+  background: var(--color-white);
+  border: var(--border-ink);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-stamp);
+}
+
+.image-viewer__caption {
+  font-weight: 700;
+  font-size: var(--text-lg);
 }
 
 .category-chips {

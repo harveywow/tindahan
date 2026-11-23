@@ -190,12 +190,30 @@
   flex: none;
 }
 
+/* On wider screens every menu item stays visible by wrapping to a second row
+   instead of hiding off the edge. Phones keep the swipeable single row. */
+@media (min-width: 901px) {
+  .main-nav__list {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2) 0.375rem;
+    max-width: none;
+    overflow-x: visible;
+  }
+
+  .main-nav__link {
+    gap: 0.375rem;
+    padding: var(--space-2) 0.5rem;
+  }
+}
+
 /* ---------- Main ---------- */
 .app-main {
   display: grid;
   gap: var(--space-5);
+  flex: 1 0 auto;
   align-content: start;
-  min-height: 60vh;
+  width: 100%;
   max-width: var(--content-max-width);
   margin: 0 auto;
   padding: var(--space-5) var(--space-4) var(--space-7);
@@ -240,7 +258,7 @@
 
 /* ---------- Footer: the wooden counter ---------- */
 .app-footer {
-  padding: var(--space-4);
+  flex: none;
   color: var(--color-paper);
   background-color: var(--color-wood);
   background-image: repeating-linear-gradient(
@@ -251,19 +269,144 @@
   border-top: 6px solid var(--color-wood-dark);
 }
 
-.app-footer__inner {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: var(--space-3);
+.app-footer__inner,
+.app-footer__bottom {
   max-width: var(--content-max-width);
   margin: 0 auto;
+  padding: var(--space-5) var(--space-4);
+}
+
+.app-footer__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: var(--space-5);
   font-size: var(--text-sm);
+}
+
+.app-footer p {
+  margin: 0;
 }
 
 .app-footer a {
   color: var(--color-sign-yellow);
   font-weight: 700;
+}
+
+.app-footer__brand {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.app-footer__name {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  font-family: var(--font-sign);
+  font-size: var(--text-lg);
+  color: var(--color-sign-yellow);
+}
+
+.app-footer__name svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  flex: none;
+}
+
+.app-footer__tagline {
+  color: var(--color-paper-dark);
+}
+
+.app-footer__today {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.app-footer__status {
+  padding: 0.1rem 0.55rem;
+  font-weight: 800;
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  border: 2px solid var(--color-ink);
+  border-radius: 999px;
+  box-shadow: var(--shadow-stamp-small);
+}
+
+.app-footer__status--open {
+  color: var(--color-white);
+  background: var(--color-ok);
+}
+
+.app-footer__status--closed {
+  color: var(--color-white);
+  background: var(--color-sale-red);
+}
+
+.app-footer__heading {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-sign-yellow-soft);
+}
+
+.app-footer__list {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app-footer__list--names li {
+  color: var(--color-paper);
+}
+
+.app-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-paper-dark);
+  border-top: 1px dashed rgb(255 253 248 / 35%);
+}
+
+.app-footer__top {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0 var(--space-3);
+  font: inherit;
+  font-weight: 700;
+  color: var(--color-ink);
+  background: var(--color-sign-yellow);
+  border: var(--border-ink);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-stamp-small);
+  cursor: pointer;
+}
+
+.app-footer__top:hover {
+  background: var(--color-sign-yellow-soft);
+}
+
+.app-footer__top:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.app-footer__top svg {
+  width: 1rem;
+  height: 1rem;
 }
 
 /* ---------- Common grids ---------- */
@@ -291,6 +434,14 @@
   .layout-two {
     grid-template-columns: 1fr;
   }
+
+  .app-footer__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .app-footer__brand {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 640px) {
@@ -309,5 +460,15 @@
 
   .app-main {
     padding-top: var(--space-4);
+  }
+
+  .app-footer__inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .app-footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

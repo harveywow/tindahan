@@ -30,16 +30,39 @@ It is designed for someone like *Aling Nena*, who runs a store from the front wi
 |---|---|
 | **Bukas** | Open the day with the starting cash. Shows today's sales, profit (kita), utang, cash expected in the drawer, low stock, expiring items and overdue suki. |
 | **Tinda** | Cashier screen. Products sit on wooden shelves behind the window grille. Sell by **pack or by piece (tingi)**. Pay with cash, GCash or **Ilista (utang)**. Shows exactly which **bills and coins to give as sukli**, then prints a thermal-style receipt. Keyboard: `/` search, `Enter` pay, `Esc` clear. |
-| **Paninda** | Products with prices, puhunan (cost), margin, stock shown as *"3 packs + 5 pcs"*, reorder levels, expiry dates and pictures. Includes stock adjustments with a reason, categories, and archive instead of delete. |
+| **Paninda** | Products with prices, puhunan (cost), margin, stock shown as *"3 packs + 5 pcs"*, reorder levels, expiry dates and pictures (click a picture to see it large). Includes stock adjustments with a reason, categories, and archive instead of delete. |
 | **Listahan** | Suki list and a lined **utang notebook** per customer, with a running balance. Paid lines are struck through by hand (FIFO), with credit limits, owner PIN override, overdue warnings and a ranking of the biggest balances. |
 | **Benta** | Sales history with filters, receipt reprint, and **void/refund** (stock is restored and utang reversed). |
 | **Pamilihan** | Shopping list for restocking. Suggests quantities from the last 7 days of sales and supports a check-off "received" flow that updates stock and cost. |
 | **Gastos** | Cash taken out of the drawer: expenses, owner withdrawals and restock payments. |
-| **Sara** | End-of-day **cash count by denomination** compared with the expected cash, giving **TAMA / SOBRA / KULANG**. A note is required when it doesn't match. Prints a daily summary. |
+| **Sara** | End-of-day **cash count by denomination** compared with the expected cash, giving **TAMA / SOBRA / KULANG**. A note is required when it doesn't match. Prints a daily summary. Today can be **reopened** from Bukas (owner PIN) if it was closed by mistake; the earlier count stays in the log. |
 | **Ulat** | Daily, weekly and monthly charts drawn with the Canvas API, top sellers, slow movers, category and payment breakdowns, and CSV exports. |
 | **Talaan** | Read-only activity log of every important action. |
 | **Ayos** | Store settings, English/Filipino, owner PIN, JSON backup and restore, demo data, and reset. |
 | **Tungkol** | About the project and its contributors. |
+
+Every screen ends with the same footer: the store name, today's date with an OPEN/CLOSED badge, quick links, the group members, a backup reminder and a *Back to top* button. It always sits at the bottom of the window, even on short screens.
+
+### Languages
+
+Switch with **EN / FIL** at the top right. Each language is complete on its own, and every menu name matches its page title:
+
+| Filipino | English |
+|---|---|
+| Bukas | Dashboard |
+| Tinda · Supot · Sukli | Sell · Basket · Change |
+| Paninda · Puhunan · Tingi | Products · Cost · By the piece |
+| Listahan ng Utang · Suki · Utang | Credit Notebook · Customer · Credit |
+| Benta | Sales |
+| Pamilihan | Restock |
+| Gastos | Expenses |
+| Sara · TAMA / SOBRA / KULANG | Close Store · EXACT / OVER / SHORT |
+| Ulat | Reports |
+| Talaan | Activity Log |
+| Ayos | Settings |
+| Tungkol | About |
+
+`tests/i18n.test.js` fails if a Filipino word slips into the English text or a menu name stops matching its page.
 
 ---
 
@@ -68,7 +91,7 @@ Follow **[docs/SIMULATION.md](docs/SIMULATION.md)**: one full store day with exa
 
 ## How to run the tests
 
-There are **127 automated tests** written with a tiny test runner we made ourselves (`tests/testRunner.js`), so no libraries are needed.
+There are **137 automated tests** written with a tiny test runner we made ourselves (`tests/testRunner.js`), so no libraries are needed.
 
 - **In the browser:** open `http://localhost:5500/tests/index.html`. This runs every test, including the DOM/XSS tests.
 - **In the terminal:**
@@ -106,7 +129,7 @@ tindahan/
 │   ├── ui/               AppShell, views (one per screen) and components
 │   ├── i18n/strings.js   Every English and Filipino label
 │   └── utils/            money, validators, dates, i18n, dom, csv, ids, debounce
-├── tests/                Test runner, 8 test suites, browser + Node runners
+├── tests/                Test runner, 9 test suites, browser + Node runners
 └── docs/                 ARCHITECTURE, USER_GUIDE, TEST_PLAN, COMMIT_PLAN
 ```
 

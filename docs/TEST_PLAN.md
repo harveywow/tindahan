@@ -4,12 +4,12 @@ Every edge case required by the project is handled in code **and** covered by at
 
 ## How to run
 
-- Browser: open `tests/index.html` through the local server (runs all 127 tests, including DOM/XSS).
-- Terminal: `npm test` (125 run in Node; 2 DOM tests are marked *browser only*).
+- Browser: open `tests/index.html` through the local server (runs all 137 tests, including DOM/XSS).
+- Terminal: `npm test` (135 run in Node; 2 DOM tests are marked *browser only*).
 
 ## Result
 
-Last run: **127 passed, 0 failed** (browser) · **125 passed, 0 failed, 2 skipped** (Node).
+Last run: **137 passed, 0 failed** (browser) · **135 passed, 0 failed, 2 skipped** (Node).
 
 ## Edge cases → tests
 
@@ -49,6 +49,8 @@ Besides the edge cases, the suites also cover:
 - **backup**: round trip, rejection leaves data untouched, and the PIN is never exported.
 - **demo data**: 30 consistent closed days with no negative stock.
 - **auth**: PIN hashing (never stored in plain text), format, and change/remove needing the current PIN.
+- **reopening today**: selling continues on the same day, the earlier count is kept and logged, the next closing expects every sale of the day, and only a closed today can be reopened.
+- **translations**: same keys in both languages, no Filipino words in the English UI, every menu name matching its page title, and no empty text.
 
 ## Full list (Node run)
 
@@ -139,8 +141,13 @@ Besides the edge cases, the suites also cover:
 ✓ SalesService.voidSale › cannot void a sale from a closed day
 ✓ SalesService.voidSale › [EC17] rejects history filters where start is after end
 ✓ DayService › opens the day once
-✓ DayService › does not reopen a day that was already closed
+✓ DayService › openDay refuses a day that was already closed (reopenToday is separate)
 ✓ DayService › [EC2] rejects invalid opening cash
+✓ DayService.reopenToday › opens a closed today again and lets selling continue
+✓ DayService.reopenToday › keeps the earlier count and logs it
+✓ DayService.reopenToday › expects every sale of the day at the next closing
+✓ DayService.reopenToday › refuses when today is still open or was never opened
+✓ DayService.reopenToday › only reopens today, never a past day
 ✓ CreditService › [EC7] rejects duplicate customer names
 ✓ CreditService › a credit sale adds to the balance
 ✓ CreditService › [EC8] blocks a sale above the credit limit, unless overridden by the owner
@@ -180,6 +187,11 @@ Besides the edge cases, the suites also cover:
 ✓ AuthService › needs the current PIN to change or remove it
 ✓ SettingsService and LogService › fills missing settings with defaults and validates updates
 ✓ SettingsService and LogService › logs important actions, newest first
+✓ translations › has the same keys in English and Filipino
+✓ translations › uses no Filipino words in the English UI
+✓ translations › gives every menu item the same name as its screen title (English)
+✓ translations › gives every menu item the same name as its screen title (Filipino)
+✓ translations › never leaves a translation empty
 
-125 passed, 0 failed, 2 skipped
+135 passed, 0 failed, 2 skipped
 ```

@@ -6,6 +6,7 @@ import { formatDateKey } from '../../utils/dates.js';
 import { el } from '../../utils/dom.js';
 import { getLocale, t } from '../../utils/i18n.js';
 import { formatPeso } from '../../utils/money.js';
+import { confirmAction, requirePin } from '../components/dialogs.js';
 import { emptyState } from '../components/EmptyState.js';
 import { formatStock } from '../components/format.js';
 import { buildForm, field } from '../components/FormField.js';
@@ -145,9 +146,31 @@ export class DashboardView extends BaseView {
             amount: formatPeso(todayRecord.summary?.totalSales ?? 0),
           }),
         }),
-        button({ label: t('dashboard.seeClosing'), onClick: () => this.navigate('sara') }),
+        el('div', { className: 'btn-row' }, [
+          button({ label: t('dashboard.seeClosing'), onClick: () => this.navigate('sara') }),
+          button({
+            label: t('dashboard.reopen'),
+            variant: 'green',
+            iconName: 'undo',
+            onClick: () => this.reopenToday(),
+          }),
+        ]),
       ],
     });
+  }
+
+  /** Confirms, asks for the owner PIN (if one is set), then opens today again. */
+  async reopenToday() {
+    const confirmed = await confirmAction({
+      title: t('dashboard.reopenTitle'),
+      message: t('dashboard.reopenText'),
+      confirmLabel: t('dashboard.reopen'),
+    });
+    if (confirmed && (await requirePin(this.services.authService, t('dashboard.pinForReopen')))) {
+      this.runAction(() => this.services.dayService.reopenToday(), {
+        successMessage: t('dashboard.reopened'),
+      });
+    }
   }
 
   /**

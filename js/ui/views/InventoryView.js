@@ -12,7 +12,7 @@ import { t } from '../../utils/i18n.js';
 import { centavosToInputValue, formatPeso } from '../../utils/money.js';
 import { confirmAction, requirePin } from '../components/dialogs.js';
 import { emptyState } from '../components/EmptyState.js';
-import { formatStock } from '../components/format.js';
+import { formatPriceLine, formatStock } from '../components/format.js';
 import {
   buildForm,
   clearFormErrors,
@@ -21,6 +21,7 @@ import {
   moneyField,
 } from '../components/FormField.js';
 import { icon } from '../components/icons.js';
+import { openImageViewer, zoomableImage, zoomButton } from '../components/ImageViewer.js';
 import { openModal } from '../components/Modal.js';
 import { button, dataTable, panel } from '../components/viewHelpers.js';
 import { BaseView } from './BaseView.js';
@@ -43,6 +44,45 @@ const NEW_PRODUCT_VALUES = Object.freeze({
   pricePerPiece: '',
   imageDataUrl: '',
 });
+
+/**
+ * Shows the picture chosen in the product form at full size, before saving.
+ * @param {string} dataUrl
+ * @param {HTMLFormElement|null} form - Used for the product name as the title.
+ */
+function openFormPreview(dataUrl, form) {
+  const typedName = form?.elements.namedItem('name')?.value.trim();
+  openImageViewer({ src: dataUrl, name: typedName || t('inventory.image') });
+}
+
+/**
+ * The picture preview in the product form; clicking it shows it large.
+ * @param {string} imageDataUrl - Starting picture ('' when none).
+ * @returns {{previewButton: HTMLButtonElement, showPreview: function(string): void}}
+ */
+function buildImagePreview(imageDataUrl) {
+  let currentSrc = imageDataUrl;
+  const preview = el('img', {
+    className: 'image-field__preview',
+    attrs: { alt: '' },
+  });
+  const previewButton = zoomButton({
+    image: preview,
+    label: t('images.zoomPreview'),
+    onOpen: (target) => openFormPreview(currentSrc, target.closest('form')),
+  });
+  const showPreview = (dataUrl) => {
+    currentSrc = dataUrl;
+    if (dataUrl) {
+      preview.src = dataUrl;
+    } else {
+      preview.removeAttribute('src');
+    }
+    previewButton.hidden = !dataUrl;
+  };
+  showPreview(imageDataUrl);
+  return { previewButton, showPreview };
+}
 
 export class InventoryView extends BaseView {
   constructor(context) {
@@ -179,9 +219,11 @@ export class InventoryView extends BaseView {
       : product.category;
     return el('div', { className: 'product-cell' }, [
       product.imageDataUrl
-        ? el('img', {
+        ? zoomableImage({
+            src: product.imageDataUrl,
+            name: product.name,
+            caption: formatPriceLine(product),
             className: 'product-cell__thumb',
-            attrs: { src: product.imageDataUrl, alt: '' },
           })
         : null,
       el('div', {}, [
@@ -432,10 +474,7 @@ export class InventoryView extends BaseView {
     const hiddenInput = el('input', {
       attrs: { type: 'hidden', name: 'imageDataUrl', value: imageDataUrl },
     });
-    const preview = el('img', {
-      className: 'image-field__preview',
-      attrs: { alt: '', hidden: !imageDataUrl, src: imageDataUrl || null },
-    });
+    const { previewButton, showPreview } = buildImagePreview(imageDataUrl);
     const wrapper = field({
       name: 'image',
       label: t('inventory.image'),
@@ -447,8 +486,7 @@ export class InventoryView extends BaseView {
     const fileInput = wrapper.querySelector('input[type="file"]');
     const setImage = (dataUrl) => {
       hiddenInput.value = dataUrl;
-      preview.src = dataUrl;
-      preview.hidden = !dataUrl;
+      showPreview(dataUrl);
     };
     fileInput.addEventListener('change', () =>
       this.loadImage(fileInput, wrapper.querySelector('.field__error'), setImage),
@@ -464,7 +502,7 @@ export class InventoryView extends BaseView {
     });
     wrapper.append(
       hiddenInput,
-      el('div', { className: 'image-field__row' }, [preview, removeButton]),
+      el('div', { className: 'image-field__row' }, [previewButton, removeButton]),
     );
     return wrapper;
   }
