@@ -1,0 +1,83 @@
+/*
+ * Design tokens. Every color, font and spacing value used by the app lives
+ * here, so the whole look can be adjusted from one file.
+ *
+ * Palette: taken from a real sari-sari storefront — the faded mint paint of
+ * the window grille, the wood of the shelves, the sun-faded yellow of the
+ * hand-painted sign, "sale" red, and off-white paper.
+ */
+:root {
+  /* Grille (rehas) */
+  --color-grille: #3f8a80;
+  --color-grille-dark: #2a6159;
+  --color-grille-light: #cfe6dd;
+
+  /* Wood shelves */
+  --color-wood: #9a6438;
+  --color-wood-dark: #5c381d;
+  --color-wood-light: #c48d5b;
+
+  /* Signage */
+  --color-sign-yellow: #f4c74f;
+  --color-sign-yellow-soft: #fbe7a8;
+  --color-sale-red: #c63b2b;
+  --color-sale-red-dark: #962a1e;
+
+  /* Paper and ink */
+  --color-paper: #fbf6ea;
+  --color-paper-dark: #efe4cc;
+  --color-cardboard: #d8b98c;
+  --color-bag: #caa678;
+  --color-ink: #2b2118;
+  --color-ink-soft: #5f5042;
+  --color-ink-faint: #8f8070;
+  --color-white: #fffdf8;
+
+  /* Notebook */
+  --color-notebook-line: #a9cbe9;
+  --color-notebook-margin: #e0716a;
+  --color-pencil: #24407a;
+
+  /* Status */
+  --color-ok: #2f7a3d;
+  --color-ok-soft: #d8eed6;
+  --color-warn: #b46b00;
+  --color-warn-soft: #fbe9c8;
+  --color-danger: var(--color-sale-red);
+  --color-danger-soft: #f6d5cf;
+
+  /* Typography */
+  --font-sign: 'Bungee', 'Arial Black', 'Impact', sans-serif;
+  --font-body: 'Work Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-hand: 'Kalam', 'Comic Sans MS', 'Segoe Print', cursive;
+  --font-receipt: 'Courier Prime', 'Courier New', monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.625rem;
+  --text-2xl: 2.25rem;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  /* Shapes */
+  --border-ink: 2px solid var(--color-ink);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --shadow-stamp: 3px 3px 0 var(--color-ink);
+  --shadow-stamp-small: 2px 2px 0 var(--color-ink);
+  --shadow-soft: 0 6px 18px rgb(43 33 24 / 18%);
+
+  --focus-ring: 0 0 0 3px var(--color-white), 0 0 0 6px var(--color-pencil);
+  --content-max-width: 1240px;
+  --transition-fast: 120ms;
+  --motion-duration: 600ms;
+}
