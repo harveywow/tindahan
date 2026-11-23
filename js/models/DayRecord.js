@@ -22,6 +22,17 @@ export const DAY_STATUS = Object.freeze({ OPEN: 'open', CLOSED: 'closed' });
  * @property {number} difference - counted − expected (positive = sobra).
  * @property {string} closingNote
  * @property {Object|null} summary - Totals frozen at closing.
+ * @property {number} reopenCount - How many times today was reopened after closing.
+ * @property {ClosingSnapshot[]} previousClosings - Earlier counts, kept when the day is reopened.
+ */
+
+/**
+ * @typedef {Object} ClosingSnapshot
+ * @property {string} closedAt
+ * @property {number} countedCash
+ * @property {number} expectedCash
+ * @property {number} difference
+ * @property {string} closingNote
  */
 
 /**
@@ -42,5 +53,7 @@ export function createDayRecord(dayKey, openingCash) {
     difference: 0,
     closingNote: '',
     summary: null,
+    reopenCount: 0,
+    previousClosings: [],
   };
 }

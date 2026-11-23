@@ -19,9 +19,10 @@ import {
 import { normalizeName } from '../../utils/validators.js';
 import { confirmAction, requirePin } from '../components/dialogs.js';
 import { emptyState } from '../components/EmptyState.js';
-import { formatStock } from '../components/format.js';
+import { formatPriceLine, formatStock } from '../components/format.js';
 import { clearFormErrors, field, formErrorBanner } from '../components/FormField.js';
 import { icon } from '../components/icons.js';
+import { zoomableImage } from '../components/ImageViewer.js';
 import { openModal } from '../components/Modal.js';
 import { moneyChips } from '../components/MoneyChips.js';
 import { printElement } from '../components/print.js';
@@ -210,9 +211,11 @@ export class CashierView extends BaseView {
       [
         el('div', { className: `shelf__product shelf__product--tone-${tone}` }, [
           product.imageDataUrl
-            ? el('img', {
+            ? zoomableImage({
+                src: product.imageDataUrl,
+                name: product.name,
+                caption: formatPriceLine(product),
                 className: 'shelf__image',
-                attrs: { src: product.imageDataUrl, alt: '' },
               })
             : null,
           el('span', { className: 'shelf__name', text: product.name }),

@@ -7,6 +7,7 @@ import { EVENTS } from './core/EventBus.js';
 import { Router } from './core/Router.js';
 import { Basket } from './services/Basket.js';
 import { AppShell, NAV_ITEMS } from './ui/AppShell.js';
+import { closeAllModals } from './ui/components/Modal.js';
 import { Toast } from './ui/components/Toast.js';
 import { installGlobalErrorHandler, showStartupFailure } from './ui/errorHandler.js';
 import { AboutView } from './ui/views/AboutView.js';
@@ -73,15 +74,23 @@ function start() {
   });
 
   let activeView = null;
+  let activeRoute = 'bukas';
+  // The browser tab title follows the screen AND the language, so it is
+  // refreshed on every screen change and every settings change.
+  const updateDocumentTitle = () => {
+    const navLabel = NAV_ITEMS.some((item) => item.route === activeRoute)
+      ? t(`nav.${activeRoute}`)
+      : t('nav.tungkol');
+    document.title = `${navLabel} · ${app.services.settingsService.get().storeName}`;
+  };
   const showView = (route) => {
+    closeAllModals();
     activeView?.unmount();
     activeView = new VIEWS_BY_ROUTE[route](context);
     activeView.mount(main);
+    activeRoute = route;
     shell.setActiveRoute(route);
-    const navLabel = NAV_ITEMS.some((item) => item.route === route)
-      ? t(`nav.${route}`)
-      : t('nav.tungkol');
-    document.title = `${navLabel} · ${app.services.settingsService.get().storeName}`;
+    updateDocumentTitle();
     main.focus({ preventScroll: true });
     window.scrollTo({ top: 0 });
   };
@@ -89,9 +98,10 @@ function start() {
     Object.fromEntries(Object.keys(VIEWS_BY_ROUTE).map((route) => [route, () => showView(route)])),
     'bukas',
   );
-  app.bus.on(EVENTS.SETTINGS_CHANGED, (settings) =>
-    setLanguage(settings?.language ?? app.services.settingsService.get().language),
-  );
+  app.bus.on(EVENTS.SETTINGS_CHANGED, (settings) => {
+    setLanguage(settings?.language ?? app.services.settingsService.get().language);
+    updateDocumentTitle();
+  });
   shell.mount();
   context.router.start();
   reportStorageHealth(app.storage, toast);

@@ -1,6 +1,7 @@
 /**
  * @file Opening the store day and answering "is the store open?".
- * Depends on: core/AppError.js, core/EventBus.js, models/DayRecord.js, utils/validators.js.
+ * Depends on: core/AppError.js, core/EventBus.js, models/DayRecord.js, utils/ids.js,
+ * utils/money.js, utils/validators.js.
  *
  * Why sales belong to the OPEN DAY rather than the calendar date: a store
  * opened at 6 AM may still be selling at 12:15 AM. That late sale is part of
@@ -10,6 +11,8 @@
 import { ConflictError, StoreClosedError } from '../core/AppError.js';
 import { EVENTS } from '../core/EventBus.js';
 import { createDayRecord, DAY_STATUS } from '../models/DayRecord.js';
+import { nowIso } from '../utils/ids.js';
+import { formatPeso } from '../utils/money.js';
 import { requireMoney } from '../utils/validators.js';
 
 export class DayService {
@@ -82,6 +85,51 @@ export class DayService {
     this.bus.emit(EVENTS.DAY_CHANGED, record);
     this.bus.emit(EVENTS.DATA_CHANGED, { source: 'day' });
     return record;
+  }
+
+  /**
+   * Opens today again after it was closed (closed by mistake, or a customer
+   * came back). Sales keep counting toward the same day and drawer, so the
+   * owner simply counts the drawer again at the next closing. The earlier
+   * count is kept on the record and written to the activity log.
+   * Only TODAY can be reopened: past days stay final, like printed reports.
+   * @returns {import('../models/DayRecord.js').DayRecord}
+   * @throws {ConflictError} When a day is open, or today has not been closed.
+   */
+  reopenToday() {
+    if (this.getOpenDay()) {
+      throw new ConflictError('errors.dayStillOpen');
+    }
+    const record = this.getTodayRecord();
+    if (record?.status !== DAY_STATUS.CLOSED) {
+      throw new ConflictError('errors.nothingToReopen');
+    }
+    const { closedAt, countedCash, expectedCash, difference, closingNote } = record;
+    const reopened = this.repository.upsert({
+      ...record,
+      status: DAY_STATUS.OPEN,
+      reopenCount: (record.reopenCount ?? 0) + 1,
+      previousClosings: [
+        ...(record.previousClosings ?? []),
+        { closedAt, countedCash, expectedCash, difference, closingNote },
+      ],
+      reopenedAt: nowIso(),
+      closedAt: '',
+      cashCount: {},
+      countedCash: 0,
+      expectedCash: 0,
+      difference: 0,
+      closingNote: '',
+      summary: null,
+    });
+    this.logService.record('day', 'log.dayReopened', {
+      date: record.id,
+      counted: formatPeso(countedCash),
+      difference: formatPeso(difference),
+    });
+    this.bus.emit(EVENTS.DAY_CHANGED, reopened);
+    this.bus.emit(EVENTS.DATA_CHANGED, { source: 'day' });
+    return reopened;
   }
 
   /**

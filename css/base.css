@@ -11,9 +11,17 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/*
+ * Header, main and footer stack in a column that is at least one screen tall.
+ * <main> takes the leftover space, so on short screens the footer sits at the
+ * bottom of the window and on long screens it follows the content.
+ */
 body {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   min-height: 100vh;
+  min-height: 100dvh;
   font-family: var(--font-body);
   font-size: var(--text-md);
   line-height: 1.5;

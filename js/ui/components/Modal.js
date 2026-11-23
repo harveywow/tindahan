@@ -10,6 +10,9 @@ import { icon } from './icons.js';
 /** How long after opening a click outside the dialog is ignored. */
 const IGNORE_CLICKS_MS = 500;
 
+/** Close functions of every dialog currently on screen. */
+const openDialogs = new Set();
+
 const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 /**
@@ -36,12 +39,18 @@ export function openModal({ title, content, isWide = false, onClose = () => {} }
       return; // closing twice (button + Esc) must not run onClose twice
     }
     isClosed = true;
+    openDialogs.delete(close);
     document.removeEventListener('keydown', handleKeydown);
     backdrop.remove();
     previouslyFocused?.focus?.();
     onClose();
   };
   const handleKeydown = (event) => {
+    // Only the top dialog reacts, so Esc on a picture opened from the
+    // product form closes the picture but leaves the form open.
+    if (!isTopmost(backdrop)) {
+      return;
+    }
     if (event.key === 'Escape') {
       close();
     } else if (event.key === 'Tab') {
@@ -50,7 +59,7 @@ export function openModal({ title, content, isWide = false, onClose = () => {} }
   };
   closeButton.addEventListener('click', close);
   // Ignore backdrop clicks right after opening: the second click of a
-  // double-clicked "Bayad" would otherwise close the receipt immediately.
+  // double-clicked "Pay" button would otherwise close the receipt immediately.
   const openedAt = Date.now();
   backdrop.addEventListener('mousedown', (event) => {
     if (event.target === backdrop && Date.now() - openedAt > IGNORE_CLICKS_MS) {
@@ -59,6 +68,7 @@ export function openModal({ title, content, isWide = false, onClose = () => {} }
   });
   document.addEventListener('keydown', handleKeydown);
   document.body.append(backdrop);
+  openDialogs.add(close);
   (dialog.querySelector('input, select, textarea') ?? closeButton).focus();
   return { close, body };
 }
@@ -99,6 +109,24 @@ function buildDialog({ title, content, isWide }) {
     body,
     closeButton,
   };
+}
+
+/**
+ * Closes every open dialog, newest first. Called when the screen changes
+ * (e.g. the browser Back button), so a dialog from the old screen does not
+ * stay on top of the new one.
+ */
+export function closeAllModals() {
+  [...openDialogs].reverse().forEach((close) => close());
+}
+
+/**
+ * @param {HTMLElement} backdrop
+ * @returns {boolean} True when no other dialog was opened on top of this one.
+ */
+function isTopmost(backdrop) {
+  const backdrops = document.querySelectorAll('.modal-backdrop');
+  return backdrops[backdrops.length - 1] === backdrop;
 }
 
 /**

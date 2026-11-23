@@ -311,6 +311,12 @@ export class ClosingView extends BaseView {
             text: t('closing.topItems', { items: topItems }),
           })
         : null,
+      day.reopenCount > 0
+        ? el('p', {
+            className: 'receipt__footer',
+            text: t('closing.reopenedNote', { count: day.reopenCount }),
+          })
+        : null,
     ]);
   }
 

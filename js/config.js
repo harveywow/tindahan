@@ -102,6 +102,9 @@ export const RESTOCK_LOOKBACK_DAYS = 7;
 /** How many days of stock the restock suggestion aims to cover. */
 export const RESTOCK_TARGET_DAYS = 7;
 
+/** Shown in the footer; keep in step with package.json. */
+export const APP_VERSION = '1.2.0';
+
 export const CONTRIBUTORS = Object.freeze([
   'HERNANDEZ, Harvey Daniel T. (Leader)',
   'BARRIETA, Raychel G.',

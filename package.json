@@ -1,6 +1,6 @@
 {
   "name": "tindahan",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Tindahan — a sari-sari store management system built with vanilla HTML, CSS, and JavaScript.",
   "private": true,
   "type": "module",

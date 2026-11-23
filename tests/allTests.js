@@ -9,3 +9,4 @@ import './sales.test.js';
 import './credit.test.js';
 import './operations.test.js';
 import './data.test.js';
+import './i18n.test.js';

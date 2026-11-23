@@ -9,7 +9,7 @@ flowchart TD
     subgraph UI["ui/ — what the user sees"]
         Shell[AppShell<br/>header · nav · footer]
         Views[Views<br/>one per screen]
-        Comp[Components<br/>Modal · Toast · Receipt · Chart · Form]
+        Comp[Components<br/>Modal · Toast · Receipt · Chart · Form<br/>AppFooter · ImageViewer]
     end
     subgraph SVC["services/ — business rules (no DOM)"]
         Inv[InventoryService]
