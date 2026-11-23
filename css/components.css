@@ -1,0 +1,837 @@
+/* Reusable components: buttons, panels, stamps, forms, notebook, receipt, money chips, modal, toast. */
+
+/* ---------- Buttons: stamped labels ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  background: var(--color-white);
+  border: var(--border-ink);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-stamp);
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--color-ink);
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--color-ink);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--shadow-stamp-small);
+}
+
+.btn svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: none;
+}
+
+.btn--primary {
+  background: var(--color-sale-red);
+  color: var(--color-white);
+}
+
+.btn--yellow {
+  background: var(--color-sign-yellow);
+}
+
+.btn--green {
+  background: var(--color-ok);
+  color: var(--color-white);
+}
+
+.btn--ghost {
+  background: transparent;
+  box-shadow: none;
+  border-style: dashed;
+}
+
+.btn--ghost:hover {
+  box-shadow: none;
+  background: var(--color-paper-dark);
+}
+
+.btn--small {
+  min-height: 2.25rem;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs);
+}
+
+.btn--icon {
+  width: 2.25rem;
+  min-height: 2.25rem;
+  padding: 0;
+}
+
+.btn--huge {
+  width: 100%;
+  min-height: 3.75rem;
+  font-family: var(--font-sign);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ---------- Panels ---------- */
+.panel {
+  padding: var(--space-5);
+  background: var(--color-white);
+  border: var(--border-ink);
+  border-radius: var(--radius-md);
+  box-shadow:
+    5px 5px 0 var(--color-paper-dark),
+    5px 5px 0 2px var(--color-ink);
+}
+
+.panel--cardboard {
+  background: var(--color-cardboard);
+}
+
+.panel--flat {
+  box-shadow: none;
+}
+
+.panel__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  font-family: var(--font-sign);
+  font-size: var(--text-lg);
+  font-weight: 400;
+}
+
+.panel__title svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.panel__title-text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ---------- Stamps & tags ---------- */
+.stamp {
+  display: inline-block;
+  padding: 0.05rem var(--space-2);
+  font-family: var(--font-sign);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  color: var(--color-sale-red);
+  border: 2px solid currentColor;
+  border-radius: var(--radius-sm);
+  transform: rotate(-4deg);
+  white-space: nowrap;
+  background: rgb(255 253 248 / 85%);
+}
+
+.stamp--ok {
+  color: var(--color-ok);
+}
+
+.stamp--warn {
+  color: var(--color-warn);
+}
+
+.stamp--ink {
+  color: var(--color-ink-soft);
+}
+
+.stamp--big {
+  padding: var(--space-1) var(--space-4);
+  font-size: var(--text-2xl);
+  border-width: 4px;
+  transform: rotate(-6deg);
+}
+
+/* Price tag with a punched hole, like the ones taped to store shelves. */
+.price-tag {
+  position: relative;
+  display: inline-block;
+  padding: 0.15rem var(--space-2) 0.15rem 1.1rem;
+  font-weight: 800;
+  font-size: var(--text-sm);
+  background: var(--color-sign-yellow);
+  border: 2px solid var(--color-ink);
+  border-radius: 3px 6px 6px 3px;
+  clip-path: polygon(0.6rem 0, 100% 0, 100% 100%, 0.6rem 100%, 0 50%);
+}
+
+.price-tag::before {
+  content: '';
+  position: absolute;
+  left: 0.55rem;
+  top: 50%;
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 50%;
+  background: var(--color-ink);
+  transform: translateY(-50%);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0 var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  border-radius: 999px;
+  background: var(--color-paper-dark);
+  border: 1px solid var(--color-ink-faint);
+}
+
+/* ---------- Stat tiles ---------- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: var(--space-4);
+}
+
+.stat-tile {
+  position: relative;
+  padding: var(--space-4);
+  background: var(--color-white);
+  border: var(--border-ink);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-stamp);
+}
+
+.stat-tile:nth-child(odd) {
+  transform: rotate(-0.4deg);
+}
+
+.stat-tile:nth-child(even) {
+  transform: rotate(0.4deg);
+}
+
+.stat-tile__label {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-soft);
+}
+
+.stat-tile__value {
+  margin: var(--space-1) 0 0;
+  font-family: var(--font-sign);
+  font-size: var(--text-xl);
+  line-height: 1.1;
+}
+
+.stat-tile__hint {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-xs);
+  color: var(--color-ink-soft);
+}
+
+.stat-tile--red .stat-tile__value {
+  color: var(--color-sale-red);
+}
+
+.stat-tile--green .stat-tile__value {
+  color: var(--color-ok);
+}
+
+/* ---------- Forms ---------- */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-3) var(--space-4);
+}
+
+.form-grid--full {
+  grid-column: 1 / -1;
+}
+
+.field {
+  display: grid;
+  gap: var(--space-1);
+  align-content: start;
+}
+
+.field__label {
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.field__hint {
+  font-size: var(--text-xs);
+  color: var(--color-ink-soft);
+}
+
+.field__error {
+  min-height: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-danger);
+}
+
+.field__error:empty {
+  display: none;
+}
+
+.field--checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.form-error-banner {
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-3);
+  color: var(--color-danger);
+  font-weight: 600;
+  background: var(--color-danger-soft);
+  border: 2px solid var(--color-danger);
+  border-radius: var(--radius-sm);
+}
+
+.form-error-banner:empty {
+  display: none;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.toolbar > .field {
+  flex: 1 1 160px;
+}
+
+/* Segmented choice (payment type, report period). */
+.segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  border: var(--border-ink);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--color-white);
+}
+
+.segmented__option {
+  flex: 1 1 auto;
+  padding: var(--space-2) var(--space-3);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  border: none;
+  border-right: 2px solid var(--color-ink);
+  background: transparent;
+  cursor: pointer;
+}
+
+.segmented__option:last-child {
+  border-right: none;
+}
+
+.segmented__option[aria-pressed='true'] {
+  background: var(--color-ink);
+  color: var(--color-sign-yellow);
+}
+
+/* ---------- Lists & tables ---------- */
+.table-wrap {
+  overflow-x: auto;
+}
+
+.data-table tbody tr:hover {
+  background: var(--color-paper);
+}
+
+.data-table__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-1);
+}
+
+.row--muted {
+  color: var(--color-ink-faint);
+}
+
+.row--muted .text-money {
+  text-decoration: line-through;
+}
+
+.alert-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.alert-list__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-paper);
+  border-left: 5px solid var(--color-warn);
+  border-radius: var(--radius-sm);
+}
+
+.alert-list__item--danger {
+  border-left-color: var(--color-danger);
+}
+
+.callout {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+  background: var(--color-sign-yellow-soft);
+  border: 2px dashed var(--color-ink);
+  border-radius: var(--radius-md);
+}
+
+.callout svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+}
+
+/* ---------- Empty state ---------- */
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  color: var(--color-ink-soft);
+}
+
+.empty-state svg {
+  width: 3rem;
+  height: 3rem;
+  opacity: 0.6;
+}
+
+.empty-state__text {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: var(--text-xl);
+  color: var(--color-ink-soft);
+}
+
+/* ---------- Notebook (utang & restock list) ---------- */
+.notebook {
+  position: relative;
+  padding: var(--space-5) var(--space-4) var(--space-5) 5.5rem;
+  min-height: 22rem;
+  font-family: var(--font-hand);
+  font-size: 1.125rem;
+  line-height: 2rem;
+  color: var(--color-pencil);
+  background-color: var(--color-white);
+  background-image:
+    linear-gradient(
+      90deg,
+      transparent 4.6rem,
+      var(--color-notebook-margin) 4.6rem 4.75rem,
+      transparent 4.75rem
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 calc(2rem - 1px),
+      var(--color-notebook-line) calc(2rem - 1px) 2rem
+    );
+  background-position:
+    0 0,
+    0 1.5rem;
+  border: var(--border-ink);
+  border-radius: var(--radius-sm) var(--radius-md) var(--radius-md) var(--radius-sm);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Spiral binding holes along the left edge. */
+.notebook::before {
+  content: '';
+  position: absolute;
+  top: var(--space-4);
+  bottom: var(--space-4);
+  left: 0.9rem;
+  width: 0.9rem;
+  background-image: radial-gradient(
+    circle,
+    var(--color-paper-dark) 0 0.3rem,
+    var(--color-ink) 0.3rem 0.38rem,
+    transparent 0.4rem
+  );
+  background-size: 0.9rem 2rem;
+}
+
+.notebook__title {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: 2rem;
+  color: var(--color-ink);
+}
+
+.notebook__line {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--space-3);
+  align-items: baseline;
+  min-height: 2rem;
+}
+
+/* The date sits in the left margin, between the spiral holes and the red line. */
+.notebook__date {
+  position: absolute;
+  top: 0;
+  left: -3.6rem;
+  width: 2.8rem;
+  text-align: right;
+  font-size: var(--text-sm);
+  color: var(--color-ink-soft);
+}
+
+.notebook__amount {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.notebook__amount--payment {
+  color: var(--color-ok);
+}
+
+.notebook__balance {
+  min-width: 5.5rem;
+  text-align: right;
+  color: var(--color-ink);
+}
+
+/* Hand-drawn strikethrough for settled utang. */
+.notebook__line--settled .notebook__text,
+.notebook__line--settled .notebook__amount {
+  background-image: linear-gradient(
+    transparent 52%,
+    var(--color-sale-red) 52% 62%,
+    transparent 62%
+  );
+  background-repeat: no-repeat;
+  color: var(--color-ink-faint);
+}
+
+.notebook__total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-sale-red);
+  border-top: 3px double var(--color-ink);
+}
+
+/* ---------- Thermal receipt ---------- */
+.receipt {
+  --receipt-edge: 10px;
+  width: min(100%, 320px);
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4);
+  font-family: var(--font-receipt);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  color: #1d1d1d;
+  background: #fdfdfb;
+  box-shadow: var(--shadow-soft);
+  /* Torn top and bottom edges: a zig-zag mask cut with two gradients. */
+  mask:
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom /
+      var(--receipt-edge) 51% repeat-x,
+    conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top /
+      var(--receipt-edge) 51% repeat-x;
+}
+
+.receipt__header {
+  margin-bottom: var(--space-3);
+  text-align: center;
+}
+
+.receipt__store {
+  margin: 0;
+  font-weight: 700;
+  font-size: var(--text-md);
+  text-transform: uppercase;
+}
+
+.receipt__meta {
+  margin: 0;
+  font-size: var(--text-xs);
+}
+
+.receipt__rule {
+  margin: var(--space-2) 0;
+  border: none;
+  border-top: 1px dashed #1d1d1d;
+}
+
+.receipt__line {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.receipt__line--total {
+  font-weight: 700;
+  font-size: var(--text-md);
+}
+
+.receipt__item-detail {
+  padding-left: var(--space-3);
+  font-size: var(--text-xs);
+}
+
+.receipt__footer {
+  margin-top: var(--space-3);
+  text-align: center;
+  font-size: var(--text-xs);
+}
+
+.receipt__void {
+  margin: var(--space-2) 0;
+  text-align: center;
+}
+
+/* ---------- Money chips (bills and coins) ---------- */
+.money-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.money-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: 700;
+  font-size: var(--text-sm);
+}
+
+.money-chip__piece {
+  display: inline-grid;
+  place-items: center;
+  font-size: var(--text-xs);
+  font-weight: 800;
+  border: 2px solid var(--color-ink);
+}
+
+.money-chip__piece--bill {
+  min-width: 3.4rem;
+  height: 1.7rem;
+  padding: 0 var(--space-1);
+  border-radius: 3px;
+  background: var(--bill-color, #b9d7a8);
+}
+
+.money-chip__piece--coin {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f6f1dd, #c8b98a 70%);
+}
+
+.money-chip__count {
+  color: var(--color-ink-soft);
+}
+
+/* Colors loosely follow the real Philippine bills. */
+.money-chip__piece--100000 {
+  --bill-color: #a9c5e8;
+}
+.money-chip__piece--50000 {
+  --bill-color: #f2d478;
+}
+.money-chip__piece--20000 {
+  --bill-color: #b6dcb0;
+}
+.money-chip__piece--10000 {
+  --bill-color: #c9b3df;
+}
+.money-chip__piece--5000 {
+  --bill-color: #f0a99c;
+}
+.money-chip__piece--2000 {
+  --bill-color: #f4c08a;
+}
+
+/* ---------- Modal ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  background: rgb(43 33 24 / 55%);
+  animation: fade-in var(--transition-fast);
+}
+
+.modal {
+  width: min(100%, 560px);
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  padding: var(--space-5);
+  background: var(--color-paper);
+  border: 3px solid var(--color-ink);
+  border-radius: var(--radius-md);
+  box-shadow: 8px 8px 0 var(--color-ink);
+}
+
+.modal--wide {
+  width: min(100%, 760px);
+}
+
+.modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.modal__title {
+  margin: 0;
+  font-size: var(--text-xl);
+}
+
+/* ---------- Toasts ---------- */
+.toast-region {
+  position: fixed;
+  left: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 60;
+  display: grid;
+  gap: var(--space-2);
+  width: min(360px, calc(100vw - 2rem));
+}
+
+.toast {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  font-weight: 600;
+  background: var(--color-white);
+  border: var(--border-ink);
+  border-left-width: 8px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-stamp);
+  animation: slide-up var(--transition-fast);
+}
+
+.toast--success {
+  border-left-color: var(--color-ok);
+}
+
+.toast--error {
+  border-left-color: var(--color-danger);
+}
+
+.toast--info {
+  border-left-color: var(--color-sign-yellow);
+}
+
+.toast svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: none;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* ---------- Bar meter (category breakdown) ---------- */
+.meter-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.meter-list__row {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr) 6rem;
+  gap: var(--space-2);
+  align-items: center;
+  font-size: var(--text-sm);
+}
+
+.meter-list__bar {
+  height: 0.9rem;
+  background: var(--color-paper-dark);
+  border: 1px solid var(--color-ink);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.meter-list__fill {
+  width: var(--meter-percent, 0%);
+  height: 100%;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--color-sale-red) 0 6px,
+    var(--color-sale-red-dark) 6px 9px
+  );
+}
