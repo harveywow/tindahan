@@ -1,0 +1,28 @@
+/* Styles for the browser test runner page only. */
+.test-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-5);
+}
+
+.test-page__summary {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.test-page__results {
+  display: grid;
+  gap: var(--space-1);
+  padding-left: var(--space-5);
+  font-family: var(--font-receipt);
+  font-size: var(--text-sm);
+}
+
+.test-page__pass {
+  color: var(--color-ok);
+}
+
+.test-page__fail {
+  color: var(--color-danger);
+  font-weight: 700;
+}
